@@ -1,13 +1,7 @@
 package com.cedricziel.demo.sse;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
-@Getter
-@Setter
-@NoArgsConstructor
 public class Message {
 
     @NotEmpty
@@ -22,6 +16,9 @@ public class Message {
         this.message = message;
     }
 
+    public Message() {
+    }
+
     @Override
     public String toString() {
 
@@ -29,5 +26,21 @@ public class Message {
                 "from='" + from + '\'' +
                 ", message='" + message + '\'' +
                 '}';
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
