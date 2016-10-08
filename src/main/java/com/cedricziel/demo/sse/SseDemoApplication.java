@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @SpringBootApplication
@@ -44,13 +45,17 @@ public class SseDemoApplication {
     @RequestMapping(path = "/chat", method = RequestMethod.POST)
     public Message sendMessage(@Valid Message message) {
 
-        log.info("Got message" + message);
+        log.info("Got message " + message);
 
         emitters.forEach((SseEmitter emitter) -> {
             try {
                 emitter.send(message, MediaType.APPLICATION_JSON);
                 Thread.sleep(5000);
                 emitter.send(new Message("server", new Date().toString()), MediaType.APPLICATION_JSON);
+                if (Objects.equals(message.getMessage(), "stop")) {
+                    emitter.send("Gotta go");
+                    emitter.complete();
+                }
             } catch (IOException e) {
                 emitter.complete();
                 emitters.remove(emitter);
