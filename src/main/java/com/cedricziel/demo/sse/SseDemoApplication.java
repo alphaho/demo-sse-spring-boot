@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -48,9 +49,13 @@ public class SseDemoApplication {
         emitters.forEach((SseEmitter emitter) -> {
             try {
                 emitter.send(message, MediaType.APPLICATION_JSON);
+                Thread.sleep(5000);
+                emitter.send(new Message("server", new Date().toString()), MediaType.APPLICATION_JSON);
             } catch (IOException e) {
                 emitter.complete();
                 emitters.remove(emitter);
+                e.printStackTrace();
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         });
