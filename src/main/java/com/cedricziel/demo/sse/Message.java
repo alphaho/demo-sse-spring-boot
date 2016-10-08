@@ -1,13 +1,9 @@
 package com.cedricziel.demo.sse;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 public class Message {
 
-    @NotEmpty
     private String from;
 
-    @NotEmpty
     private String message;
 
     public Message(String from, String message) {
